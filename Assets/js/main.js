@@ -62,14 +62,23 @@ function opButtonPush(op, element){
     if(result != null){
         numberArray[0] = result;
         numberArray[1] = '';
+        logDisplay.value += "-ANS";
         calcDisplay.value = result;
     }
     
     calcDisplay.value = op;
-    logDisplay.value += " " + op + " ";
     operator = op;
     arrayIndex = 1;
     pass++;
+    
+    if(op === "sqrt"){
+        logDisplay.value += " " + op;
+        result = doMath(numberArray[0], 0, op);
+        mainReset();
+        return;
+    }
+    
+    logDisplay.value += " " + op + " ";
 }
 
 function changeSign(element){
@@ -108,7 +117,7 @@ function logReset(){
 }
 
 function checkSign(sign){
-    if(sign === "+" || sign === "-" || sign === "*" || sign === "/"){
+    if(sign === "+" || sign === "-" || sign === "*" || sign === "/" || sign === "pow" || sign === "sqrt"){
         return true;
     }
     errorStr = "Op!";
@@ -155,6 +164,12 @@ function myMath(x, y, sign){
                 errorStr = "div 0 !";
                 return false;
             }
+        case "pow":
+            answer = Math.pow(x, y);
+            break;
+        case "sqrt":
+            answer = Math.sqrt(x);
+            break;
         default:
             errorStr = "Math";
             return false;
